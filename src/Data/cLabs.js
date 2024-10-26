@@ -3,16 +3,16 @@
       id: 1,
       name: "BOX-1",
       code: `
-  #include <stdio.h>
-  #include<conio.h>
+#include <stdio.h>
+#include<conio.h>
   
-  int gcd(int m, int n){
-      if(n == 0) 
-          return m;
-      if(m < n)
-          return gcd(n, m);
-      return gcd(n, m % n);
-  }
+int gcd(int m, int n){
+ if(n == 0) 
+  return m;
+ if(m < n)
+  return gcd(n, m);
+ return gcd(n, m % n);
+}
   
   void main(){
       int m, n, res;

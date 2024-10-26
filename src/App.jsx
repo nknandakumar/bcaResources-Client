@@ -22,9 +22,9 @@ const App = () => {
 				<div className=" container mx-auto px-4 lg:px-6 ">
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/subject" element={<Subject />} />
-						<Route path="/subject/papers" element={<Papers />} />
-						<Route path="/subject/notes" element={<Notes />} />
+						<Route path="/subject/:sem_id" element={<Subject />} />
+						<Route path="/subject/papers/:sem_id/:sub_id" element={<Papers />} />
+						<Route path="/subject/notes/:sem_id" element={<Notes />} />
 						<Route path="/lab_manuals/:sem_id" element={<Lab_manual/>} />
 						<Route path="*" element={<Error />} />
 					</Routes>

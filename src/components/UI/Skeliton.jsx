@@ -1,5 +1,5 @@
 
-const Skeliton = () => {
+const Skelton = () => {
   return (
    <div className="  mx-auto px-4  my-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-6   lg:mx-auto relative   lg:px-32">
      <div role='status'  className='max-w-sm animate-pulse border-2 rounded-xl  p-5 '>
@@ -71,4 +71,4 @@ const Skeliton = () => {
   )
 }
 
-export default Skeliton
+export default Skelton

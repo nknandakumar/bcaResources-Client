@@ -62,7 +62,7 @@ const Lab_manual = () => {
 
 	return (
 		<>
-			<Link to={"/subject"}>
+			<Link to={`/subject/${sem_id}`}>
 				<div className="sticky top-0 py-2  bg-gradient-to-r from-gray-50 to-cyan-50  z-10">
 					<CircleArrowLeft className=" text-6xl font-bold" />
 				</div>
