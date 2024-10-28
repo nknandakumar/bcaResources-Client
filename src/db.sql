@@ -2,7 +2,7 @@
 CREATE TABLE
     semesters (
         id SERIAL PRIMARY KEY,
-        name VARCHAR(50) NOT NULL -- Example: 'First Semester', 'Second Semester'
+        name VARCHAR(50) NOT NULL 
     );
 
 -- Subjects Table
@@ -10,7 +10,7 @@ CREATE TABLE
     subjects (
         id SERIAL PRIMARY KEY,
         semester_id INT REFERENCES semesters (id) ON DELETE CASCADE,
-        name VARCHAR(100) NOT NULL, -- Example: 'Mathematics', 'Physics'
+        name VARCHAR(100) NOT NULL, 
     );
 
 -- Question Papers Table
@@ -18,8 +18,8 @@ CREATE TABLE
     question_papers (
         id SERIAL PRIMARY KEY,
         subject_id INT REFERENCES subjects (id) ON DELETE CASCADE,
-        year INT NOT NULL, -- Example: 2022, 2023, 2024
-        paper_url TEXT NOT NULL, -- URL or file path to the question paper PDF
+        year INT NOT NULL, 
+        paper_url TEXT NOT NULL, 
     );
 
 -- Notes Table
@@ -28,7 +28,7 @@ CREATE TABLE
         id SERIAL PRIMARY KEY,
         subject_id INT REFERENCES subjects (id) ON DELETE CASCADE,
         note_title VARCHAR(255) NOT NULL,
-        note_url TEXT NOT NULL, -- URL or file path to the note PDF
+        note_url TEXT NOT NULL, 
     );
 
 -- Insert data for the first two semesters
@@ -92,11 +92,11 @@ VALUES
 INSERT INTO
     question_papers (subject_id, year, paper_url)
 VALUES
-    (1, 2024, 'https://drive.google.com/file/d/16fV76F3Dt7k8iq4YLVHpyIW6gY4ISeay/view?usp=sharing'),
-    (2, 2024, 'https://drive.google.com/file/d/13P1-3oqkQffs1yop6vLvRhogj4cV61dB/view?usp=sharing'),
-    (3, 2024, 'https://drive.google.com/file/d/1eQ5fxBOW54EaVjuvBybPka01DGUcf-xB/view?usp=sharing'),
-    (4, 2024, 'https://drive.google.com/file/d/10hfoe8GIQ_8v7YhZDgPERFpvjMM86uX0/view?usp=sharing'),
-    (5, 2024, 'https://drive.google.com/file/d/1uVevQePhIn0brJQ8v-4_XtYAvznSENVP/view?usp=sharing'),
-    (6, 2024, 'https://drive.google.com/file/d/1D64_l1c-fRZebQTrbIAXH4gOwuqhjKT9/view?usp=sharing'),
-    (7, 2024, 'https://drive.google.com/file/d/1UQRSRyGbttb5Y30g1kGDvrf1kWNcTkP2/view?usp=sharing');
+    (8, 2024, 'https://drive.google.com/file/d/16fV76F3Dt7k8iq4YLVHpyIW6gY4ISeay/view?usp=sharing'),
+    (9, 2024, 'https://drive.google.com/file/d/13P1-3oqkQffs1yop6vLvRhogj4cV61dB/view?usp=sharing'),
+    (10, 2024, 'https://drive.google.com/file/d/1eQ5fxBOW54EaVjuvBybPka01DGUcf-xB/view?usp=sharing'),
+    (11, 2024, 'https://drive.google.com/file/d/10hfoe8GIQ_8v7YhZDgPERFpvjMM86uX0/view?usp=sharing'),
+    (12, 2024, 'https://drive.google.com/file/d/1uVevQePhIn0brJQ8v-4_XtYAvznSENVP/view?usp=sharing'),
+    (13, 2024, 'https://drive.google.com/file/d/1D64_l1c-fRZebQTrbIAXH4gOwuqhjKT9/view?usp=sharing'),
+    (14, 2024, 'https://drive.google.com/file/d/1UQRSRyGbttb5Y30g1kGDvrf1kWNcTkP2/view?usp=sharing');
   

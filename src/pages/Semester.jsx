@@ -1,38 +1,31 @@
 import { Link } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
+import Skelton from './../components/UI/SemSkeliton';
 import axios from "axios";
 
-import Skelton from './../components/UI/SemSkeliton';
+const fetchSemesters = async () => {
+	const response = await axios.get(`http://localhost:3000/`);
+	return response.data;
+};
 
 const Semester = () => {
-	const [semester, setSemester] = useState([]);
+	const { data: semesters, isLoading, isError, error } = useQuery({
+		queryKey: ["semesters"],
+		queryFn: fetchSemesters,
+	});
 
-	useEffect(() => {
-		const fetchData = async () => {
-			try {
-				const response = await axios.get(`http://localhost:3000/`);
-				setSemester(response.data);
-			} catch (error) {
-				console.error("Error fetching subjects:", error);
-			}
-		};
-		fetchData();
-	}, []);
+	if (isLoading) return <Skelton />;
+	if (isError) return <p className="text-red-500">Error: {error.message}</p>;
+
 	return (
-		<section className=" mt-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-6  lg:mx-auto relative  ">
-			{
-				semester.length == 0 ? (
-                       <Skelton/>
-				) :(
-					semester.map((sem) => (
-						<Link to={`/subject/${sem.id}`} key={sem.id}>
-							<div className="sem-card  ">
-								<h2 className="text-xl lg:text-3xl font-bold">{sem.name}</h2>
-							</div>
-						</Link>
-					))
-				)
-			}
+		<section className="mt-32 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-6 lg:mx-auto relative">
+			{semesters.map((sem) => (
+				<Link to={`/subject/${sem.id}`} key={sem.id}>
+					<div className="sem-card">
+						<h2 className="text-xl lg:text-3xl font-bold">{sem.name}</h2>
+					</div>
+				</Link>
+			))}
 		</section>
 	);
 };

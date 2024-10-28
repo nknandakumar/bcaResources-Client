@@ -1,27 +1,24 @@
-import { useState, useEffect } from "react";
-import Card from "../components/UI/Card";
+import { useQuery } from "@tanstack/react-query";
 import { Link, useParams } from "react-router-dom";
 import { CircleArrowLeft } from "lucide-react";
 import axios from "axios";
+import Card from "../components/UI/Card";
+import Skelton from "../components/UI/Skeliton";
 
-// Renamed the local component to avoid conflict
+const fetchSubjects = async (sem_id) => {
+	const response = await axios.get(`http://localhost:3000/subjects/${sem_id}`);
+	return response.data;
+};
+
 const SubjectPage = () => {
-	const [Subjects, setSubjects] = useState([]);
 	const { sem_id } = useParams();
+	const { data: subjects, isLoading, isError, error } = useQuery({
+		queryKey: ["subjects", sem_id],
+		queryFn: () => fetchSubjects(sem_id),
+	});
 
-	useEffect(() => {
-		const fetchSubjects = async () => {
-			try {
-				const response = await axios.get(
-					`http://localhost:3000/subjects/${sem_id}`
-				);
-				setSubjects(response.data);
-			} catch (error) {
-				console.error("Error fetching subjects:", error);
-			}
-		};
-		fetchSubjects();
-	}, [sem_id]);
+	if (isLoading) return <Skelton/>;
+	if (isError) return <p className="text-red-500">Error: {error.message}</p>;
 
 	return (
 		<>
@@ -30,7 +27,7 @@ const SubjectPage = () => {
 					<CircleArrowLeft className="text-6xl font-bold" />
 				</div>
 			</Link>
-                 <h1 className=" text-center text-4xl font-bold " >Semester {sem_id}</h1>
+			<h1 className="text-center text-4xl font-bold">Semester {sem_id}</h1>
 			<section className="mt-10 lg:px-32 lg:mx-auto relative">
 				<Link to={`/lab_manuals/${sem_id}`}>
 					<button className="btnHover px-4 py-2 text-lg text-white block rounded-md bg-indigo-500">
@@ -39,17 +36,15 @@ const SubjectPage = () => {
 				</Link>
 
 				<h2 className="py-4 text-2xl">Subjects :</h2>
-
-				{/* SUBJECTS CARD SECTION */}
 				<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-10 gap-6">
-					{Subjects.map((subject) => (
+					{subjects.map((subject) => (
 						<Card
 							key={subject.id}
 							name={subject.name}
 							paper={"Paper"}
 							notes={"Notes"}
 							paper_Path={`/subject/papers/${sem_id}/${subject.id}`}
-							notes_path={`/subject/notes/${sem_id}`}
+							notes_path={`/subject/notes/${sem_id}/${subject.id}`}
 						/>
 					))}
 				</div>
