@@ -7,8 +7,6 @@ import javaPrograms from "../Data/javaLab";
 import DsPrograms from "../Data/DsLab";
 // External Libraries
 import { Clipboard, ClipboardCheck } from "lucide-react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { CircleArrowLeft } from "lucide-react";
 
 const Lab_manual = () => {
@@ -44,20 +42,10 @@ const Lab_manual = () => {
 
 	// Handle copy functionality
 	const handleCopy = (text, id) => {
-		navigator.clipboard
-			.writeText(text)
-			.then(() => {
-				setCopiedCodeId(id); // Show ClipboardCheck icon
-				toast.success("Code copied!", { position: toast.POSITION.TOP_RIGHT });
+		navigator.clipboard.writeText(text);
+		setCopiedCodeId(id);
+		setTimeout(()=> setCopiedCodeId(null),2000);
 
-				// Revert the icon back to Clipboard after 1 second
-				setTimeout(() => {
-					setCopiedCodeId(null);
-				}, 1000);
-			})
-			.catch(() => {
-				toast.error("Failed to copy!", { position: toast.POSITION.TOP_RIGHT });
-			});
 	};
 
 	return (
@@ -128,12 +116,12 @@ const Lab_manual = () => {
 											</pre>
 											<button
 												onClick={() => handleCopy(program.code, program.id)}
-												className="absolute top-2 right-2"
+												className="absolute top-2 right-2 bg-white p-2 rounded-md"
 											>
 												{copiedCodeId === program.id ? (
-													<ClipboardCheck />
+													<ClipboardCheck  className=" text-green-500" />
 												) : (
-													<Clipboard />
+													<Clipboard  />
 												)}
 											</button>
 										</div>

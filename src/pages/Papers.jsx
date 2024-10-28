@@ -70,6 +70,7 @@ const Papers = () => {
                   <span className="absolute inset-0 w-full h-full bg-white border border-[#4a6da1] group-hover:bg-indigo-50"></span>
                   <span className="relative text-[#4a6da1]">View</span>
                 </button>
+                {/*Download Button */}
                 <button
                   onClick={() => handleDownloadPdf(paper.paper_url, `${paper.year}.pdf`)}
                   className="relative inline-block font-medium group py-1.5 px-2.5"

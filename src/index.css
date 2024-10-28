@@ -58,3 +58,46 @@ li {
 	@apply transform transition-transform duration-300 hover:scale-105 hover:bg-blue-700;
 }
 
+/* Add this to your CSS file for the sliding animation */
+@keyframes slide-in-bottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Add this to your CSS file for the sliding animation */
+/* Add this to your CSS file for the sliding animation */
+@keyframes slide-in-bottom {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-out-bottom {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+.slide-in-bottom {
+    animation: slide-in-bottom 0.5s forwards;
+}
+
+.slide-out-bottom {
+    animation: slide-out-bottom 0.5s forwards;
+}
