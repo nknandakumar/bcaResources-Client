@@ -31,6 +31,46 @@ CREATE TABLE
         note_url TEXT NOT NULL, 
     );
 
+--Updated Tables
+ -- Enable UUID extension (if not already enabled)
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
+-- Semesters Table
+CREATE TABLE semesters (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    sem_key SERIAL UNIQUE, -- Auto-increment sem_key for each semester
+    name VARCHAR(50) NOT NULL
+);
+
+-- Subjects Table
+CREATE TABLE subjects (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    semester_id UUID REFERENCES semesters (id) ON DELETE CASCADE,
+    sem_key INT REFERENCES semesters (sem_key) ON DELETE CASCADE, -- Match semester sem_key
+    sub_key SERIAL UNIQUE, -- Auto-increment sub_key for each subject
+    name VARCHAR(100) NOT NULL
+);
+
+-- Question Papers Table
+CREATE TABLE question_papers (
+    paper_uuid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    subject_id UUID REFERENCES subjects (id) ON DELETE CASCADE,
+    sub_key INT REFERENCES subjects (sub_key) ON DELETE CASCADE, -- Match subject sub_key
+    year INT NOT NULL CHECK (year >= 2000), -- Example constraint for valid range
+    paper_url TEXT NOT NULL
+);
+
+-- Notes Table
+CREATE TABLE notes (
+    note_uuid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    subject_id UUID REFERENCES subjects (id) ON DELETE CASCADE,
+    sub_key INT REFERENCES subjects (sub_key) ON DELETE CASCADE, -- Match subject sub_key
+    note_title VARCHAR(255) NOT NULL,
+    note_url TEXT NOT NULL
+);
+
+
+
 -- Insert data for the first two semesters
 INSERT INTO
     semesters (name)
@@ -40,7 +80,7 @@ VALUES
 
 -- Example subjects for First Semester (id=1) and Second Semester (id=2)
 INSERT INTO
-    subjects (semester_id, name)
+    subjects (sem_key, name)
 VALUES
     (1, 'Kannada : Manujamatha-1 '),
     (
@@ -62,6 +102,41 @@ VALUES
     (2, 'Discrete Mathematical Structures'),
     (2, 'Digital Fluency'),
     (2, 'OE : Indian Polity, Issues and concerns');
+
+
+INSERT INTO subjects (subject_uuid, semester_uuid, subject_name) VALUES 
+(uuid_generate_v4(), 'first-semester-uuid', 'Kannada : Manujamatha-1'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'Mathematics I'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'Computer Science I'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'Physics I'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'Chemistry I'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'English'), 
+(uuid_generate_v4(), 'first-semester-uuid', 'Physical Education'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'Mathematics II'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'Computer Science II'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'Physics II'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'Chemistry II'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'English II'), 
+(uuid_generate_v4(), 'second-semester-uuid', 'Physical Education II');
+
+    ---
+    INSERT INTO subjects (subject_uuid ,semester_uuid, subject_name) VALUES 
+(  uuid_generate_v4()  'first-semester-uuid', 'Kannada : Manujamatha-1'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'English : Aspirations and course Book Paper-1'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'Fundamentals Of Computer'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'Programming in C'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'Mathematical Foundation'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'Environmental Studies'), 
+(  uuid_generate_v4()  'first-semester-uuid', 'OE Introduction to Gender Studies'), 
+
+(  uuid_generate_v4()  '', 'Kannada : Manujamatha-2'), 
+(  uuid_generate_v4()  '', 'English : Aspirations and course Book Paper-2'), 
+( uuid_generate_v4()   '', 'Object Oriented Concepts using Java'), 
+(  uuid_generate_v4()  '', 'Data Structures Using C'), 
+(  uuid_generate_v4()  '', 'Discrete Mathematical Structures'), 
+(  uuid_generate_v4()  '', 'Digital Fluency'), 
+(  uuid_generate_v4()  '', 'OE : Indian Polity, Issues and concerns');
+
 
 -- Example question papers for a subject
 INSERT INTO

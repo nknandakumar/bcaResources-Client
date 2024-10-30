@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./index.css";
-import NavBar from "./components/NavBar";
+//import NavBar from "./components/NavBar";
 import Home from "./pages/Home";
 import Subject from "./pages/Subject";
 import Papers from "./pages/Papers";
@@ -18,7 +18,7 @@ const App = () => {
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
 				<>
-					<NavBar className="navbar" />
+				
 					<div className="container mx-auto px-4 lg:px-6 ">
 						<Routes>
 							<Route path="/" element={<Home />} />

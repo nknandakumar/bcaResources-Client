@@ -5,6 +5,8 @@ import axios from "axios";
 import Card from "../components/UI/Card";
 import Skelton from "../components/UI/Skeliton";
 
+import NavBar from './../components/NavBar';
+
 const fetchSubjects = async (sem_id) => {
 	const response = await axios.get(`http://localhost:3000/subjects/${sem_id}`);
 	return response.data;
@@ -22,12 +24,17 @@ const SubjectPage = () => {
 
 	return (
 		<>
+		<div className="sticky top-0  bg-gradient-to-r from-gray-50 to-cyan-50 z-10 ">
+			<NavBar/>
 			<Link to={"/"}>
-				<div className="sticky top-0 py-2 bg-gradient-to-r from-gray-50 to-cyan-50 z-10">
+				<div className=" py-2 bg-gradient-to-r from-gray-50 to-cyan-50 z-10">
 					<CircleArrowLeft className="text-6xl font-bold" />
 				</div>
 			</Link>
-			<h1 className="text-center text-4xl font-bold">Semester {sem_id}</h1>
+		
+		</div>
+			
+
 			<section className="mt-10 lg:px-32 lg:mx-auto relative">
 				<Link to={`/lab_manuals/${sem_id}`}>
 					<button className="btnHover px-4 py-2 text-lg text-white block rounded-md bg-indigo-500">
