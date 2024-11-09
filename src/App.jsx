@@ -10,6 +10,7 @@ import Error from "./pages/Error";
 import Lab_manual from "./pages/Lab_manual";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+
 // Create a query client
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const App = () => {
 	return (
 		<QueryClientProvider client={queryClient}>
 			<BrowserRouter>
+	
 				<>
 				
 					<div className="container mx-auto px-4 lg:px-6 ">
@@ -31,6 +33,7 @@ const App = () => {
 					</div>
 					<Footer />
 				</>
+				
 			</BrowserRouter>
 		</QueryClientProvider>
 	);

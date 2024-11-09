@@ -56,7 +56,7 @@ CREATE TABLE question_papers (
     paper_uuid UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     subject_id UUID REFERENCES subjects (id) ON DELETE CASCADE,
     sub_key INT REFERENCES subjects (sub_key) ON DELETE CASCADE, -- Match subject sub_key
-    year INT NOT NULL CHECK (year >= 2000), -- Example constraint for valid range
+    paper_year INT NOT NULL CHECK (year >= 2000), -- Example constraint for valid range
     paper_url TEXT NOT NULL
 );
 
@@ -165,13 +165,22 @@ VALUES
     (2, 'The Rightful Inheritors of the Earth', ''),
     (2, '', ''),
 INSERT INTO
-    question_papers (subject_id, year, paper_url)
+    question_papers (sub_key, paper_year, paper_url)
 VALUES
-    (8, 2024, 'https://drive.google.com/file/d/16fV76F3Dt7k8iq4YLVHpyIW6gY4ISeay/view?usp=sharing'),
-    (9, 2024, 'https://drive.google.com/file/d/13P1-3oqkQffs1yop6vLvRhogj4cV61dB/view?usp=sharing'),
-    (10, 2024, 'https://drive.google.com/file/d/1eQ5fxBOW54EaVjuvBybPka01DGUcf-xB/view?usp=sharing'),
-    (11, 2024, 'https://drive.google.com/file/d/10hfoe8GIQ_8v7YhZDgPERFpvjMM86uX0/view?usp=sharing'),
-    (12, 2024, 'https://drive.google.com/file/d/1uVevQePhIn0brJQ8v-4_XtYAvznSENVP/view?usp=sharing'),
-    (13, 2024, 'https://drive.google.com/file/d/1D64_l1c-fRZebQTrbIAXH4gOwuqhjKT9/view?usp=sharing'),
-    (14, 2024, 'https://drive.google.com/file/d/1UQRSRyGbttb5Y30g1kGDvrf1kWNcTkP2/view?usp=sharing');
+    (15, 2024, 'https://drive.google.com/file/d/16fV76F3Dt7k8iq4YLVHpyIW6gY4ISeay/view?usp=sharing'),
+    (16, 2024, 'https://drive.google.com/file/d/13P1-3oqkQffs1yop6vLvRhogj4cV61dB/view?usp=sharing'),
+    (17, 2024, 'https://drive.google.com/file/d/1eQ5fxBOW54EaVjuvBybPka01DGUcf-xB/view?usp=sharing'),
+    (18, 2024, 'https://drive.google.com/file/d/10hfoe8GIQ_8v7YhZDgPERFpvjMM86uX0/view?usp=sharing'),
+    (19, 2024, 'https://drive.google.com/file/d/1uVevQePhIn0brJQ8v-4_XtYAvznSENVP/view?usp=sharing'),
+    (20, 2024, 'https://drive.google.com/file/d/1D64_l1c-fRZebQTrbIAXH4gOwuqhjKT9/view?usp=sharing'),
+    (21, 2024, 'https://drive.google.com/file/d/1UQRSRyGbttb5Y30g1kGDvrf1kWNcTkP2/view?usp=sharing');
   
+
+  INSERT INTO
+    question_papers (sub_key, paper_year, paper_url)
+VALUES
+    (22, 2022, 'https://drive.google.com/file/d/1p2xTZE3zF3w7urP1sssZUvQOeV914ton/view?usp=sharing'),
+    (23,2022,'https://drive.google.com/file/d/13Hg8IYHYCHmq5EAPtfOreMonagajI_iM/view?usp=sharing'),
+    (24,2022,'https://drive.google.com/file/d/1wCxw8jK-aUOVm45OSoy3cuIh0Dworyne/view?usp=sharing'),
+    (25,2022,'https://drive.google.com/file/d/10q-6R9xo7RObUyhnpwv9ezSz2riIO9mY/view?usp=sharing'),
+    (26,2022,'https://drive.google.com/file/d/1SSI63FrRNuuK5dEDoLKSLVklP7SOCRbx/view?usp=sharing');

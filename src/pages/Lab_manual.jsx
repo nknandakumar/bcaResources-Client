@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 // Code Files
 import FcPrograms from "../Data/FcLab";
@@ -6,14 +6,38 @@ import CPrograms from "../Data/cLabs";
 import javaPrograms from "../Data/javaLab";
 import DsPrograms from "../Data/DsLab";
 // External Libraries
-import { Clipboard, ClipboardCheck } from "lucide-react";
-import { CircleArrowLeft } from "lucide-react";
+import { Clipboard, ClipboardCheck,ArrowBigLeftDash } from "lucide-react";
+import axios from "axios";
+import NavBar from "../components/NavBar";
 
 const Lab_manual = () => {
+	const { sem_id } = useParams();
 	const [selectedSub, setSelectedSub] = useState(null); // State for selected subject
 	const [copiedCodeId, setCopiedCodeId] = useState(null); // State to track copied code
+	const [semKey, setSemKey] = useState();
 
-	const { sem_id } = useParams();
+	useEffect(() => {
+		const fetchSem = async () => {
+			try {
+				const response = await axios.get(
+					`http://localhost:3000/lab_manual/${sem_id}`
+				);
+				if (
+					response.data &&
+					Array.isArray(response.data) &&
+					response.data.length > 0
+				) {
+					setSemKey(response.data);
+				} else {
+					console.error("Unexpected data format:", response.data);
+				}
+			} catch (error) {
+				console.log(error + "server error");
+			}
+		};
+		fetchSem();
+	}, [sem_id]);
+
 	// Lab Manuals data per semester
 	const semesterData = {
 		1: [
@@ -33,7 +57,6 @@ const Lab_manual = () => {
 
 	// Handle program navigation without changing the URL
 	const handleProgramClick = (programId) => {
-		// Scroll to the program using scrollIntoView
 		const targetProgram = document.getElementById(programId);
 		if (targetProgram) {
 			targetProgram.scrollIntoView({ behavior: "smooth" });
@@ -44,44 +67,52 @@ const Lab_manual = () => {
 	const handleCopy = (text, id) => {
 		navigator.clipboard.writeText(text);
 		setCopiedCodeId(id);
-		setTimeout(()=> setCopiedCodeId(null),2000);
-
+		setTimeout(() => setCopiedCodeId(null), 2000);
 	};
 
 	return (
 		<>
+    <NavBar/>
 			<Link to={`/subject/${sem_id}`}>
-				<div className="sticky top-0 py-2  bg-gradient-to-r from-gray-50 to-cyan-50  z-10">
-					<CircleArrowLeft className=" text-6xl font-bold" />
+				<div className="sticky top-0 py-2 bg-gradient-to-r from-gray-50 to-cyan-50 z-10">
+					<ArrowBigLeftDash className="text-6xl font-bold" />
 				</div>
 			</Link>
 			<div className="min-h-screen p-2 md:p-6">
-				<h1 className="text-2xl md:text-3xl font-bold text-center text-blue-600 mb-6 md:mb-8">
-					Lab Manuals
+				<h1 className="text-2xl md:text-3xl flex justify-center font-bold text-center text-blue-600 mb-6 md:mb-8">
+					Semester{" "}
+					{semKey && semKey[0] ? (
+						<span className="text-stone-500 mx-2">{semKey[0].sem_key}</span>
+					) : (
+						"Loading..."
+					)}{" "}
+					Lab Manual
 				</h1>
 
-				{/* Display subjects if a semester is selected */}
-				{sem_id && (
+				{/* Display subjects if semester data and semKey are available */}
+				{semKey && semKey[0] && semesterData[semKey[0].sem_key] ? (
 					<div className="mb-6">
 						<h2 className="text-xl font-semibold">Select a Subject:</h2>
 						<div className="flex space-x-4">
-							{semesterData[sem_id].map((subject, index) => (
+							{semesterData[semKey[0].sem_key].map((subject, index) => (
 								<button
 									key={index}
 									onClick={() => handleSubjectClick(subject)}
-									className="px-4 py-2 rounded-md bg-indigo-300 font-bold my-2 shadow-md transform transition-transform hover:duration-300 hover:scale-105 hover:bg-indigo-400 "
+									className="px-4 py-2 rounded-md bg-indigo-300 font-bold my-2 shadow-md transform transition-transform hover:duration-300 hover:scale-105 hover:bg-indigo-400"
 								>
 									{subject.name}
 								</button>
 							))}
 						</div>
 					</div>
+				) : (
+					<p>Loading subjects...</p>
 				)}
 
 				{/* Display Lab Programs if a subject is selected */}
 				{selectedSub && (
-					<div className="sticky top-10   z-10 flex justify-center">
-						<ul className=" inline-flex p-2 rounded-md bg-indigo-50 gap-2 flex-wrap">
+					<div className="sticky top-10 z-10 flex justify-center">
+						<ul className="inline-flex p-2 rounded-md bg-indigo-50 gap-2 flex-wrap">
 							{selectedSub.data.map((program) => (
 								<button
 									key={program.id}
@@ -119,9 +150,9 @@ const Lab_manual = () => {
 												className="absolute top-2 right-2 bg-white p-2 rounded-md"
 											>
 												{copiedCodeId === program.id ? (
-													<ClipboardCheck  className=" text-green-500" />
+													<ClipboardCheck className="text-green-500" />
 												) : (
-													<Clipboard  />
+													<Clipboard />
 												)}
 											</button>
 										</div>
