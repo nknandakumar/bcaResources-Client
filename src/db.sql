@@ -184,3 +184,8 @@ VALUES
     (24,2022,'https://drive.google.com/file/d/1wCxw8jK-aUOVm45OSoy3cuIh0Dworyne/view?usp=sharing'),
     (25,2022,'https://drive.google.com/file/d/10q-6R9xo7RObUyhnpwv9ezSz2riIO9mY/view?usp=sharing'),
     (26,2022,'https://drive.google.com/file/d/1SSI63FrRNuuK5dEDoLKSLVklP7SOCRbx/view?usp=sharing');
+
+
+UPDATE question_papers  
+SET paper_url = ''
+WHERE sub_key = 15 AND paper_year = 2024;

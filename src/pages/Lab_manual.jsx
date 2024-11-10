@@ -1,19 +1,30 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-// Code Files
+import {
+	Clipboard,
+	ClipboardCheck,
+	ArrowBigLeftDash,
+	BookOpen,
+	Code,
+	Database,
+	Monitor,
+	Terminal,
+	CheckCircle2,
+	Album
+} from "lucide-react";
+import axios from "axios";
+
+// Import your data
 import FcPrograms from "../Data/FcLab";
 import CPrograms from "../Data/cLabs";
 import javaPrograms from "../Data/javaLab";
 import DsPrograms from "../Data/DsLab";
-// External Libraries
-import { Clipboard, ClipboardCheck,ArrowBigLeftDash } from "lucide-react";
-import axios from "axios";
 import NavBar from "../components/NavBar";
 
-const Lab_manual = () => {
+const LabManual = () => {
 	const { sem_id } = useParams();
-	const [selectedSub, setSelectedSub] = useState(null); // State for selected subject
-	const [copiedCodeId, setCopiedCodeId] = useState(null); // State to track copied code
+	const [selectedSub, setSelectedSub] = useState(null);
+	const [copiedCodeId, setCopiedCodeId] = useState(null);
 	const [semKey, setSemKey] = useState();
 
 	useEffect(() => {
@@ -28,8 +39,6 @@ const Lab_manual = () => {
 					response.data.length > 0
 				) {
 					setSemKey(response.data);
-				} else {
-					console.error("Unexpected data format:", response.data);
 				}
 			} catch (error) {
 				console.log(error + "server error");
@@ -38,24 +47,37 @@ const Lab_manual = () => {
 		fetchSem();
 	}, [sem_id]);
 
-	// Lab Manuals data per semester
 	const semesterData = {
 		1: [
-			{ name: "FC Lab Manual", data: FcPrograms },
-			{ name: "C Lab Manual", data: CPrograms },
+			{
+				name: "FC Lab Manual",
+				data: FcPrograms,
+				icon: <Monitor className="w-5 h-5" />,
+			},
+			{
+				name: "C Lab Manual",
+				data: CPrograms,
+				icon: <Terminal className="w-5 h-5" />,
+			},
 		],
 		2: [
-			{ name: "Java Lab Programs", data: javaPrograms },
-			{ name: "DS Lab Programs", data: DsPrograms },
+			{
+				name: "Java Lab Programs",
+				data: javaPrograms,
+				icon: <Code className="w-5 h-5" />,
+			},
+			{
+				name: "DS Lab Programs",
+				data: DsPrograms,
+				icon: <Database className="w-5 h-5" />,
+			},
 		],
 	};
 
-	// Handle subject click
 	const handleSubjectClick = (subject) => {
 		setSelectedSub(subject);
 	};
 
-	// Handle program navigation without changing the URL
 	const handleProgramClick = (programId) => {
 		const targetProgram = document.getElementById(programId);
 		if (targetProgram) {
@@ -63,7 +85,6 @@ const Lab_manual = () => {
 		}
 	};
 
-	// Handle copy functionality
 	const handleCopy = (text, id) => {
 		navigator.clipboard.writeText(text);
 		setCopiedCodeId(id);
@@ -72,99 +93,143 @@ const Lab_manual = () => {
 
 	return (
 		<>
-    <NavBar/>
-			<Link to={`/subject/${sem_id}`}>
-				<div className="sticky top-0 py-2 bg-gradient-to-r from-gray-50 to-cyan-50 z-10">
-					<ArrowBigLeftDash className="text-6xl font-bold" />
-				</div>
-			</Link>
-			<div className="min-h-screen p-2 md:p-6">
-				<h1 className="text-2xl md:text-3xl flex justify-center font-bold text-center text-blue-600 mb-6 md:mb-8">
-					Semester{" "}
-					{semKey && semKey[0] ? (
-						<span className="text-stone-500 mx-2">{semKey[0].sem_key}</span>
-					) : (
-						"Loading..."
-					)}{" "}
-					Lab Manual
-				</h1>
-
-				{/* Display subjects if semester data and semKey are available */}
-				{semKey && semKey[0] && semesterData[semKey[0].sem_key] ? (
-					<div className="mb-6">
-						<h2 className="text-xl font-semibold">Select a Subject:</h2>
-						<div className="flex space-x-4">
-							{semesterData[semKey[0].sem_key].map((subject, index) => (
-								<button
-									key={index}
-									onClick={() => handleSubjectClick(subject)}
-									className="px-4 py-2 rounded-md bg-indigo-300 font-bold my-2 shadow-md transform transition-transform hover:duration-300 hover:scale-105 hover:bg-indigo-400"
-								>
-									{subject.name}
-								</button>
-							))}
+			<NavBar />
+			<div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50/30">
+				{/* Back Button */}
+				<Link to={`/subject/${sem_id}`}>
+					<div className="sticky top-0 py-2 bg-white/80 backdrop-blur-sm border-b  z-10">
+						<div className="container mx-auto px-4">
+							<div className="group flex items-center text-gray-600 hover:text-indigo-600 transition-all duration-300">
+								<ArrowBigLeftDash className="w-6 h-6 transform group-hover:-translate-x-1 transition-transform duration-300" />
+								<span className="ml-2 text-sm font-medium">
+									Back to Subjects
+								</span>
+							</div>
 						</div>
 					</div>
-				) : (
-					<p>Loading subjects...</p>
-				)}
+				</Link>
 
-				{/* Display Lab Programs if a subject is selected */}
-				{selectedSub && (
-					<div className="sticky top-10 z-10 flex justify-center">
-						<ul className="inline-flex p-2 rounded-md bg-indigo-50 gap-2 flex-wrap">
-							{selectedSub.data.map((program) => (
-								<button
-									key={program.id}
-									onClick={() => handleProgramClick(program.id)}
-									className="p-2 bg-neutral-50 rounded-md shadow-indigo-500/40"
-								>
-									{program.id}
-								</button>
-							))}
-						</ul>
+				<div className="container mx-auto px-4 py-6">
+					{/* Header */}
+					<div className="flex items-center justify-center mb-8">
+						< Album className="w-8 h-8 text-indigo-600 mr-3" />
+						<h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+							Semester{" "}
+							{semKey && semKey[0] ? (
+								<span className="text-indigo-600">{semKey[0].sem_key}</span>
+							) : (
+								"Loading..."
+							)}{" "}
+							Lab Manual
+						</h1>
 					</div>
-				)}
 
-				<div>
-					{/* Display Lab Programs if a subject is selected */}
-					{selectedSub && (
-						<>
-							<h3 className="text-lg font-bold mb-4">{selectedSub.name}</h3>
-							<div className="grid grid-cols-1 gap-4">
-								{selectedSub.data.map((program) => (
-									<div
-										id={program.id}
-										key={program.id}
-										className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+					{/* Subject Selection */}
+					{semKey && semKey[0] && semesterData[semKey[0].sem_key] && (
+						<div className="mb-8">
+							<h2 className="text-xl font-semibold text-gray-700 mb-4 flex items-center">
+								<BookOpen className="w-5 h-5 mr-2 text-indigo-600" />
+								Select a Subject:
+							</h2>
+							<div className="flex flex-wrap gap-4">
+								{semesterData[semKey[0].sem_key].map((subject, index) => (
+									<button
+										key={index}
+										onClick={() => handleSubjectClick(subject)}
+										className={`flex items-center px-6 py-3 rounded-lg font-medium
+                      transform transition-all duration-300 ease-out hover:scale-105
+                      ${
+												selectedSub?.name === subject.name
+													? "bg-gradient-to-r from-indigo-600 to-blue-600 text-white shadow-lg"
+													: "bg-white hover:bg-indigo-50 text-gray-700 border border-indigo-100 shadow-sm hover:shadow-md"
+											}`}
 									>
-										<h4 className="text-lg font-semibold mb-2 text-gray-800">
-											{program.name}
-										</h4>
-										<div className="relative mb-4">
-											<pre className="bg-gray-900 text-white p-4 rounded-lg overflow-auto">
-												{program.code}
-											</pre>
-											<button
-												onClick={() => handleCopy(program.code, program.id)}
-												className="absolute top-2 right-2 bg-white p-2 rounded-md"
-											>
-												{copiedCodeId === program.id ? (
-													<ClipboardCheck className="text-green-500" />
-												) : (
-													<Clipboard />
-												)}
-											</button>
-										</div>
-									</div>
+										<span className="mr-2">{subject.icon}</span>
+										{subject.name}
+									</button>
 								))}
 							</div>
-						</>
+						</div>
+					)}
+
+					{/* Program Navigation */}
+					{selectedSub && (
+						<div className="sticky top-16 z-10 mb-8 animate-fadeIn">
+							<div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg border border-indigo-100 p-4">
+								<div className="flex items-center mb-4">
+									<Code className="w-5 h-5 text-indigo-600 mr-2" />
+									<h3 className="text-lg font-semibold text-gray-700">
+										Programs
+									</h3>
+								</div>
+								<div className="flex flex-wrap gap-2">
+									{selectedSub.data.map((program) => (
+										<button
+											key={program.id}
+											onClick={() => handleProgramClick(program.id)}
+											className="px-4 py-2 bg-indigo-50 hover:bg-indigo-100 
+                        text-indigo-600 rounded-lg transition-all duration-300 
+                        hover:shadow-md transform hover:scale-105"
+										>
+											{program.id}
+										</button>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
+
+					{/* Programs Display */}
+					{selectedSub && (
+						<div className="space-y-6 animate-fadeIn">
+							{selectedSub.data.map((program) => (
+								<div
+									id={program.id}
+									key={program.id}
+									className="bg-white rounded-xl shadow-lg border border-indigo-100 overflow-hidden 
+                    transform transition-all duration-300 hover:shadow-xl"
+								>
+									<div className="bg-gradient-to-r from-gray-50 to-indigo-50/30 p-4 flex items-center justify-between border-b border-indigo-100">
+										<div className="flex items-center">
+											<Terminal className="w-5 h-5 text-indigo-600 mr-2" />
+											<h4 className="text-lg font-semibold text-gray-800">
+												{program.name}
+											</h4>
+										</div>
+										{copiedCodeId === program.id && (
+											<div className="flex items-center text-green-500 text-sm">
+												<CheckCircle2 className="w-4 h-4 mr-1" />
+												Copied!
+											</div>
+										)}
+									</div>
+									<div className="relative">
+										<pre className="bg-gray-900 text-gray-100 p-6 overflow-x-auto font-mono text-sm leading-relaxed">
+											{program.code}
+										</pre>
+										<button
+											onClick={() => handleCopy(program.code, program.id)}
+											className="absolute top-4 right-4 p-2 rounded-lg bg-white/10 
+                        hover:bg-white/20 transition-all duration-300 group"
+											title="Copy code"
+										>
+											{copiedCodeId === program.id ? (
+												<ClipboardCheck className="w-5 h-5 text-green-400" />
+											) : (
+												<Clipboard className="w-5 h-5 text-gray-400 group-hover:text-white" />
+											)}
+										</button>
+									</div>
+								</div>
+							))}
+						</div>
 					)}
 				</div>
 			</div>
+
+			
 		</>
 	);
 };
 
-export default Lab_manual;
+export default LabManual;

@@ -45,7 +45,7 @@ const SubjectPage = () => {
         </Link>
         <Chatbot />
       </div>
-
+       <h1 className="text-3xl text-center" >semester {subjects && subjects[0].sem_key} </h1>
       <section className="mt-10 lg:px-32 lg:mx-auto relative">
         <Link to={`/lab_manuals/${sem_id}`}>
           <button className="btnHover px-4 py-2 text-lg text-white block rounded-md bg-indigo-500">
