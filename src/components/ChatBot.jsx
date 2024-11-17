@@ -156,7 +156,7 @@ function Chatbot() {
     }]);
 
     try {
-      const response = await axios.post('http://localhost:3000/generate', { prompt: newPrompt });
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_CONNECTION_URL}/generate`, { prompt: newPrompt });
       
       if (response.data.text) {
         setConversation(prev => [...prev, {
