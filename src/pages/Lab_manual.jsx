@@ -31,7 +31,7 @@ const LabManual = () => {
 		const fetchSem = async () => {
 			try {
 				const response = await axios.get(
-					`http://localhost:3000/lab_manual/${sem_id}`
+					`${import.meta.env.VITE_BACKEND_CONNECTION_URL}/lab_manual/${sem_id}`
 				);
 				if (
 					response.data &&

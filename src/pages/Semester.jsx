@@ -6,7 +6,8 @@ import Chatbot from "../components/ChatBot";
 import { Book, ChevronRight } from "lucide-react";
 
 const fetchSemesters = async () => {
-	const response = await axios.get(`http://localhost:3000/`);
+	const response = await axios.get(import.meta.env.VITE_BACKEND_CONNECTION_URL);
+
 	return response.data;
 };
 

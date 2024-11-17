@@ -78,6 +78,62 @@ const CopyButton = ({ text }) => {
   );
 };
 
+// Formatted Message Component
+const FormattedMessage = ({ content }) => {
+  const shouldAddCopyButton = (text) => {
+    return (
+      text.length > 100 ||
+      text.includes('```') ||
+      /^\d+\.\s/.test(text) ||
+      text.split('\n').length > 5
+    );
+  };
+
+  const isNumberedList = (text) => {
+    return /^\d+\.\s/.test(text);
+  };
+
+  const formatContent = (text) => {
+    const lines = text.split('\n');
+    return (
+      <div className="relative group">
+        {shouldAddCopyButton(text) && (
+          <div className="absolute right-2 top-2 opacity-0 group-hover:opacity-100 transition-opacity">
+            <CopyButton text={text} />
+          </div>
+        )}
+        <div className="space-y-1">
+          {lines.map((line, index) => {
+            if (isNumberedList(line)) {
+              const [number, ...rest] = line.split('.');
+              return (
+                <div key={index} className="flex items-start gap-2 mb-2">
+                  <span className="font-bold text-teal-300 min-w-[24px]">{number}.</span>
+                  <span className="flex-1">{rest.join('.').trim()}</span>
+                </div>
+              );
+            }
+            if (line.startsWith('- ') || line.startsWith('• ')) {
+              return (
+                <div key={index} className="flex items-start gap-2 mb-2 pl-4">
+                  <span className="text-teal-300">•</span>
+                  <span className="flex-1">{line.substring(2)}</span>
+                </div>
+              );
+            }
+            if (line.trim() === '') {
+              return <div key={index} className="h-2"></div>;
+            }
+            return <p key={index} className="mb-2">{line}</p>;
+          })}
+        </div>
+      </div>
+    );
+  };
+
+  return <div className="space-y-1">{formatContent(content)}</div>;
+};
+
 function Chatbot() {
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
@@ -118,7 +174,7 @@ function Chatbot() {
   };
 
   return (
-    <div className="fixed bottom-8  right-4 z-50 flex flex-col items-end">
+    <div className="fixed bottom-8 right-4 z-50 flex flex-col items-end">
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -126,10 +182,10 @@ function Chatbot() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-            className=" w-full max-w-sm sm:w-96 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl border border-gray-800/50"
+            className="w-full max-w-sm sm:w-96 bg-gray-900/95 backdrop-blur-lg rounded-xl shadow-xl border border-gray-800/50"
           >
             {/* Header */}
-            <div className="p-4  border-b border-gray-800/50">
+            <div className="p-4 border-b border-gray-800/50">
               <div className="flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <AnimatedBotLogo />
@@ -168,7 +224,7 @@ function Chatbot() {
                       <Bot className="w-5 h-5 text-teal-400 mt-1" />
                     )}
                     <div className="flex-1 text-sm leading-relaxed">
-                      {message.content}
+                      <FormattedMessage content={message.content} />
                     </div>
                   </div>
                 </motion.div>
@@ -212,16 +268,12 @@ function Chatbot() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-indigo-500 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-1
-        00 shadow-lg hover:bg-teal-500/30 transition-colors border border-teal-500/30"
+        className="w-14 h-14 bg-indigo-500 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-100 shadow-lg hover:bg-teal-500/30 transition-colors border border-teal-500/30"
       >
         {isOpen ? (
           <X className="w-6 h-6" />
         ) : (
-        <>
-        
-          <img className=' rounded-full  ' src={ChatbotLogo}/>
-        </> 
+          <img className="rounded-full" src={ChatbotLogo} alt="Chatbot" />
         )}
       </motion.button>
     </div>
@@ -229,5 +281,3 @@ function Chatbot() {
 }
 
 export default Chatbot;
-
-//http://localhost:3000/generate     <MessageCircle className="w-6 h-6" />

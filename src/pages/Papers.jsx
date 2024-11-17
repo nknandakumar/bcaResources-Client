@@ -13,8 +13,9 @@ const Papers = () => {
   // Define the function to fetch papers with sub_id parameter
   const fetchPapers = async () => {
     const { data } = await axios.get(
-      `http://localhost:3000/subject/papers/${sub_id}`
+      `${import.meta.env.VITE_BACKEND_CONNECTION_URL}/subject/papers/${sub_id}`
     );
+
     localStorage.setItem(`papers_${sub_id}`, JSON.stringify(data));
     return data;
   };

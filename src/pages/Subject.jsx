@@ -10,7 +10,7 @@ import NotesIcon from "../assets/notebook.gif"
 
 // Fetch subjects data from the server
 const fetchSubjects = async (sem_id) => {
-  const response = await axios.get(`http://localhost:3000/subjects/${sem_id}`);
+  const response = await axios.get(`${import.meta.env.VITE_BACKEND_CONNECTION_URL}/subjects/${sem_id}`);
   return response.data;
 };
 

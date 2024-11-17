@@ -12,7 +12,7 @@ const Notes = () => {
 
 	const fetchNotes = async () => {
 		const { data } = await axios.get(
-			`http://localhost:3000/subject/notes/${sub_id}`
+			`${import.meta.env.VITE_BACKEND_CONNECTION_URL}/subject/notes/${sub_id}`
 		);
 		localStorage.setItem(`notes_${sub_id}`, JSON.stringify(data));
 		return data;
