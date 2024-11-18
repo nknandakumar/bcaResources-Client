@@ -20,6 +20,7 @@ import CPrograms from "../Data/cLabs";
 import javaPrograms from "../Data/javaLab";
 import DsPrograms from "../Data/DsLab";
 import NavBar from "../components/NavBar";
+import Chatbot from "../components/ChatBot";
 
 const LabManual = () => {
 	const { sem_id } = useParams();
@@ -93,6 +94,7 @@ const LabManual = () => {
 
 	return (
 		<>
+		  <Chatbot/>
 			<NavBar />
 			<div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50/30">
 				{/* Back Button */}
