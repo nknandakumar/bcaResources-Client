@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import ChatbotLogo from "../assets/chatbot.gif"
 import axios from 'axios';
 import { motion, AnimatePresence } from 'framer-motion';
+import ReactGA from 'react-ga4';
 import { 
   Copy, 
   Check, 
@@ -12,6 +13,7 @@ import {
   User,
   Loader
 } from 'lucide-react';
+
 
 // Animated Bot Logo Component
 const AnimatedBotLogo = () => (
@@ -135,6 +137,12 @@ const FormattedMessage = ({ content }) => {
 };
 
 function Chatbot() {
+  ReactGA.send({
+    hitType: 'pageview',
+    page: window.location.pathname,
+    title: 'ChatBot ',
+  });
+
   const [isOpen, setIsOpen] = useState(false);
   const [prompt, setPrompt] = useState('');
   const [conversation, setConversation] = useState([]);

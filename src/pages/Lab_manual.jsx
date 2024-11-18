@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import axios from "axios";
 
+import ReactGA from 'react-ga4';
+
 // Import your data
 import FcPrograms from "../Data/FcLab";
 import CPrograms from "../Data/cLabs";
@@ -23,6 +25,12 @@ import NavBar from "../components/NavBar";
 import Chatbot from "../components/ChatBot";
 
 const LabManual = () => {
+	ReactGA.send({
+		hitType: 'pageview',
+		page: window.location.pathname,
+		title: 'ChatBot ',
+	  });
+
 	const { sem_id } = useParams();
 	const [selectedSub, setSelectedSub] = useState(null);
 	const [copiedCodeId, setCopiedCodeId] = useState(null);

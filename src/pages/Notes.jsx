@@ -64,7 +64,7 @@ const Notes = () => {
 				) : (
 					notes?.map((note) => (
 						<div
-							key={note.id}
+							key={note.note_uuid}
 							className="flex flex-col p-5 justify-center border-l-8 border border-[#4a6da1] rounded-lg w-full lg:max-w-sm"
 						>
 							<h1 className="text-2xl lg:text-2xl mt-2 font-semibold text-left mb-4">

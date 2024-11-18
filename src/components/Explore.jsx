@@ -10,9 +10,16 @@ import {
 	X,
 	Loader2,
 } from "lucide-react";
+import ReactGA from 'react-ga4';
 
 // Modal Component
 const Modal = ({ isOpen, onClose }) => {
+    ReactGA.send({
+		hitType: 'pageview',
+		page: window.location.pathname,
+		title: 'ChatBot ',
+	  });
+
 	const modalRef = useRef(null);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [showSuccess, setShowSuccess] = useState(false);
