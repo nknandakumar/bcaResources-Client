@@ -5,7 +5,7 @@ import './index.css';
 import ReactGA from 'react-ga4';
 
 // Initialize Google Analytics
-ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS); // Replace with your actual Measurement ID
+ReactGA.initialize('G-1Z52MSYKHE'); // Replace with your actual Measurement ID
 ReactGA.send({
   hitType: 'pageview',
   page: window.location.pathname,
